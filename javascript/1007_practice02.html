@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>hello</h1>
+    <p class="test">testing</p>
+    <p class="test">testing</p>
+    <p id = "lulu">lulu</p>
+
+    <script>
+        let h1Elements = document.getElementsByName('h1')
+        let pElements = document.getElementsByClassName('test')
+        let luElements = document.getElementById('lulu')
+        console.log(h1Elements, pElements, luElements)
+        console.log(h1Elements[0], pElements[1], luElements[0])
+        luElements.innerText = "parking"
+
+    </script>
+    
+</body>
+</html>
+
+
+<!-- 
+
+        1.script 파일 불러오기
+        <script src = '파일명.js'></> 으로 파일을 불러서 사용할 수 있다.
+
+        2.html 요소를 직접 불러서 사용할 수 있다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ -->
