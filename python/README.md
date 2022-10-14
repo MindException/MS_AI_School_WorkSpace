@@ -15,4 +15,4 @@
     <li>예외처리</li>
 </ol>
 
-## example_01 폴더
+## Samples 폴더
