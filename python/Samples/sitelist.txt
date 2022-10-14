@@ -1,0 +1,5 @@
+www.naver.com
+www.google.com
+www.daum.com
+www.apple.com
+www.microsoft.com
