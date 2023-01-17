@@ -6,6 +6,12 @@
 ## 교육기간
 2022년 9월 30일 ~ 2023년 3월 22일, 총 956시간
 
-## 환경
-모든 코드는 MS_AI_SCHOOL_WORKSPACE를 최상위 폴더로 설정하여 상대경로로 작성되었습니다.  
-vscode에서 폴더 열기로 확인하실 수 있습니다.
+## 프로젝트
+이미지 분류 프로젝트 링크: [https://github.com/MindException/Image_Classification](https://github.com/MindException/Image_Classification)
+
+## Microsoft Certified
+AI900 취득
+![AI900](./MS%20%EC%9E%90%EA%B2%A9%EC%A6%9D/AI900.jpg)
+
+DP900 취득
+![DP900](./MS%20%EC%9E%90%EA%B2%A9%EC%A6%9D/DP900.jpg)
