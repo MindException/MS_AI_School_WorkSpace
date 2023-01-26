@@ -1,0 +1,134 @@
+# 아나콘다 가상환경 설정
+
+아나콘다 가상환경을 새로 설정한다.
+
+## 1. 가상환경 및 파이썬 설치
+
+anaconda prompt 창에 __conda create -n yolov5 python=3.8__ 로 설치한다.
+가상환경 이름은 yolov5이며 파이썬 3.8로 설치한다.
+
+## 2. 가상환경 실행
+
+__conda activate yolov5__ 를 입력하여 가상환경 작동  
+prompt창 앞이 (base) -> (yolov5)로 변경된 것을 확인
+
+## 3. 파이토치 설치
+
+공식 문서에 # CUDA 11.3 을 기준으로 설치하였다.  
+__pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113__ 를 입력하여 yolov5에 필요한 파이토치 버전을 설치한다.
+
+# Yolov5 설치
+
+## 1. github에 있는 yolov5를 clone 한다.
+
+__https://github.com/ultralytics/yolov5__ 에 들어가서 github 주소를 받고 원하는 장소에 git clone 한다.
+
+## 2. 아나콘다로 yolov5 clone으로 이동 후 나머지 모듈 설치
+
+__pip install -r requirements.txt__ 을 prompt 창에 입력하여 yolov5에 필요한 나머지 모듈을 설치한다.  
+(단, 리스트에서 torch, torchvison 삭제 후 실행 - 이미 가상환경에 설치되어 있기 때문이다.)
+
+## 3. 파이참 아나콘다 연결
+
+PyCharm으로 yolov5 폴더를 연 후 File -> setting을 연다.
+
+1. Tools -> Terminal 에서 Shell path를 아나콘다 가상환경 터미널로 변경한다.<br> (예시: cmd.exe "/K" I:\anaconda3\Scripts\activate.bat yolov5)
+
+2. Project -> Python Interpreter를 위에 설정한 가상 환경으로 변경<br>
+(예시: I:\anaconda3\envs\yolov5\Scripts\python.exe)
+
+# Yolov5 사용
+
+## 1. 이미지 추가
+
+detection 할 이미지를 dataset 폴더로 추가한다.
+
+## 2. 폴더 강조 (data, dataset, models)
+
+Pycharm은 자주 사용하는 폴더의 가독성을 올리기 위하여 프로젝트 tree에 강조 효과를 넣을 수 있다.  
+오른쪽 마우스 버튼 클릭 후, Mark Directory as -> Exclusion 을 사용하면 가능하다.
+
+## 3. data/car_data.yaml 파일 생성
+
+검출하고 싶은 데이터 기준을 생성한다.  
+yolo의 기준을 알고 싶으면 동일 폴더에 존재하는 coco.yaml 파일을 열어 확인한다.  
+검출 종류는 추후 cvat을 통하여 알 수 있다.
+
+```yaml
+train: ./dataset/train/images
+val: ./dataset/valid/images
+
+# classes
+names :
+  0: big bus
+  1: big truck
+  2: bus-l-
+  3: bus-s-
+  4: car
+  5: mid truck
+  6: small bus
+  7: small truck
+  8: truck-l-
+  9: truck-m-
+  10: truck-s-
+  11: truck-xl-
+```
+을 입력한다.
+
+## 4. Hyperparameter 값 변경
+
+필요에 맞게 값을 변경하여 사용한다. 
+/data/hyps/hyp.scratch-low.yaml 에서 lr을 변경한다.
+```
+lr0: 0.001
+```
+으로 변경한다. 왠만하면 최적화하여 나왔기 때문에 다른 것을 변경하는 것은 비추천한다.
+
+## 5. models 확인(수정 불필요)
+models 폴더에 있는 모델들이 궁금하다면 README.md에 __Training__ part를 읽어라.<br>
+폴더 안에 있는 모델들과 hub 폴더 안에 있는 모델들의 차이는 hub 폴더의 모델들의 size(pixels)가 1280이다.
+
+## 6. utils 추가
+Yolov5 구성하기 위한 각종 Utils 파일이다.
+augmentations.py, loss.py 그리고 torch_utils에 필요한 aug,loss와 optimizer 등의 코드가 있다면 추가하여 사용하여도 된다.
+
+```py
+# torch_utils 파일에 def smart_optimizer
+
+elif name == 'SGDP' :
+    from adamp import SGDP
+    optimizer = SGDP(g[2], lr=lr, weight_decay=1e-5, momentum=momentum, nesterov=True)
+elif name == 'AdamP' :
+    from adamp import AdamP
+    optimizer = AdamP(g[2], lr=lr, betas=(momentum, 0.999), weight_decay=1e-2)
+```
+
+이런 식으로 코드에 끼워 넣어서 사용한다.
+
+```py
+# classify/train.py 파일에 def parse_opt
+
+parser.add_argument('--optimizer', choices=['SGD', 'Adam', 'AdamW', 'RMSProp', 'SGDP', 'AdamP'], default='AdamP', help='optimizer')
+
+```
+이렇게 선언하여 사용한다.
+
+## 7. train test
+
+train.py 파일에서 data 분류 기준을 변경하여 준다.
+```py
+# def parse_opt
+# 기존
+parser.add_argument('--data', type=str, default=ROOT / 'data/coco128.yaml', help='dataset.yaml path')
+
+# 변경
+parser.add_argument('--data', type=str, default=ROOT / 'data/car_data.yaml', help='dataset.yaml path')
+```
+utils들의 변경도 원한다면 여기서 같이하면 된다.  
+그후 prompt 창에 __python train.py__ 를 입력한다.
+
+## 8. 결과 확인
+
+runs 폴더가 생성된 것을 확인 할 수 있으며 pt 파일과 결과에 대한 정보 들이 저장되어 있다.
+
+(만약 이미지 데이터가 기존보다 추가된다면 labels 캐시 파일을 지우고 다시 돌려야 한다.)
