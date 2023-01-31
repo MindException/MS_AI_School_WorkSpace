@@ -9,6 +9,8 @@
 ## 프로젝트
 이미지 분류 프로젝트 링크: [https://github.com/MindException/Image_Classification](https://github.com/MindException/Image_Classification)
 
+Yolov5 객체 감지 프로젝트 링크 : [https://github.com/MindException/Yolov5_Project](https://github.com/MindException/Yolov5_Project)
+
 ## Microsoft Certified
 AI900 취득
 ![AI900](./MS%20%EC%9E%90%EA%B2%A9%EC%A6%9D/AI900.jpg)
